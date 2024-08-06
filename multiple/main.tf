@@ -1,8 +1,8 @@
 locals {
 
-bucket_list_with_id = [
-    for bucket in var.bucket_list:
-      merge(bucket, {id = index(bucket_list, bucket)+1})
+bucket-list-with-id = [
+    for bucket in var.bucket-list:
+      merge(bucket, {id = index(bucket-list, bucket)+1})
   ]
 
 }
