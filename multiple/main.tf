@@ -2,7 +2,7 @@ locals {
 
 bucket-list-with-id = [
     for bucket in var.bucket-list:
-      merge(bucket, {id = index(bucket-list, bucket)+1})
+      merge(bucket, {id = index(var.bucket-list, bucket)+1})
   ]
 
 }
