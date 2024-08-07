@@ -10,8 +10,8 @@ module "backend_config" {
 }
 
 data "terraform_remote_state" "state" {
-  backend   = try{module.backend_config.backend.type, null}
-  config    = try {module.backend_config.backend.config, null}
+  backend   = try (module.backend_config.backend.type, null)
+  config    = try (module.backend_config.backend.config, null)
 }
 
 module "s3_bucket" {
