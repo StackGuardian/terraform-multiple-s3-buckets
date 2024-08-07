@@ -1,9 +1,9 @@
 locals {
-  bucket-list-with-id = [
-    for b in var.bucket-list: 
-      { for state_b in data.terraform_remote_state.state[0].outputs.bucket-list
+  bucket_list_with_id = [
+    for b in var.bucket_list: 
+      { for state_b in data.terraform_remote_state.state[0].outputs.bucket_list
      #merge(b, {id = index(var.bucket-list, b)+1})
-     merge(b, {id = (state_b[index(state_b.bucket, b.bucket)] != null? state_b.id : index(var.bucket-list, b)+1)})
+     merge(b, {id = (state_b[index(state_b.bucket, b.bucket)] != null ? state_b.id : index(var.bucket_list, b)+1)})
       }
   ]
 }
@@ -24,10 +24,10 @@ data "terraform_remote_state" "state" {
 
 module "s3_bucket" {
   source = "../"
-  count = length(var.bucket-list-with-id)
+  count = length(local.bucket_list_with_id)
 
-  bucket = var.bucket-list-with-id[count.index].bucket
-  block_public_policy = var.bucket-list-with-id[count.index].block_public_policy
-  tags = {ID = bucket-list-with-id[count.index].id}
+  bucket = local.bucket_list_with_id[count.index].bucket
+  block_public_policy = local.bucket_list_with_id[count.index].block_public_policy
+  tags = {ID = local.bucket_list_with_id[count.index].id}
   
   }
