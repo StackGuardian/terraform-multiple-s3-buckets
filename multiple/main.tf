@@ -12,7 +12,7 @@ module "backend_config" {
 }
 
 output "backend" {
-value = module.backend_config.remote_state
+value = module.backend_config.backend
 }
 
 /*data "terraform_remote_state" "state" {
