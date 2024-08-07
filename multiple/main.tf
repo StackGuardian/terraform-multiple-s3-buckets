@@ -1,9 +1,10 @@
 locals {
   bucket-list-with-id = [
-    for b in var.bucket-list:
-     merge(b, {id = index(var.bucket-list, b)+1})
-     #merge(b, {id = (data.terraform_remote_state.state[0].outputs.bucket-list[index(data.terraform_remote_state.state[0].outputs.bucket-list.*.bucket, b.bucket)] != null? data.terraform_remote_state.state[0].outputs.bucket-list.id : index(var.bucket-list, b)+1)})
- 
+    for b in var.bucket-list: 
+      { for state_b in data.terraform_remote_state.state[0].outputs.bucket-list
+     #merge(b, {id = index(var.bucket-list, b)+1})
+     merge(b, {id = (state_b[index(state_b.bucket, b.bucket)] != null? state_b.id : index(var.bucket-list, b)+1)})
+      }
   ]
 }
 module "backend_config" {
