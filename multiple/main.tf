@@ -10,11 +10,11 @@ module "backend_config" {
   source = "Invicton-Labs/backend-config/null"
 }
 
-#data "terraform_remote_state" "state" {
- # count = module.backend_config != null ? 1 : 0
- # backend   = module.backend_config.backend.type
- # config    = module.backend_config.backend.config
-#}
+data "terraform_remote_state" "state" {
+  count = module.backend_config.backend != null ? 1 : 0
+  backend   = module.backend_config.backend.type
+  config    = module.backend_config.backend.config
+}
 
 module "s3_bucket" {
   source = "../"
