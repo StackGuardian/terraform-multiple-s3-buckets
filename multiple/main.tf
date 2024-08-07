@@ -16,7 +16,7 @@ data "terraform_remote_state" "state" {
 
 module "s3_bucket" {
   source = "../"
-  count = length(var.bucket-list-with-id)
+  count = length(local.bucket-list-with-id)
 
   bucket = local.bucket-list-with-id[count.index].bucket
   block_public_policy = local.bucket-list-with-id[count.index].block_public_policy
