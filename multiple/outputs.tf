@@ -1,3 +1,3 @@
-output "bucket-list" {
-  value = local.bucket-list-with-id
+output "bucket_list" {
+  value = local.bucket_list_with_id
 }
