@@ -8,18 +8,20 @@ locals {
 }
 module "backend_config" {
   source = "Invicton-Labs/backend-config/null"
+  fetch_remote_state = true
 }
 
 output "backend" {
-value = module.backend_config.backend
+value = module.backend_config.remote_state
 }
 
-data "terraform_remote_state" "state" {
+/*data "terraform_remote_state" "state" {
   count = module.backend_config.backend != null ? 1 : 0
   backend   = module.backend_config.backend.type
   config    = module.backend_config.backend.config
   workspace = module.backend_config.workspace
 }
+*/
 
 module "s3_bucket" {
   source = "../"
