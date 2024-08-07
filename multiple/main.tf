@@ -1,22 +1,25 @@
 locals {
   bucket_list_with_id = [
-    for b in var.bucket_list:         
-        merge (b,{id = (length(data.terraform_remote_state.state) > 0 && contains(keys(data.terraform_remote_state.state[0].outputs.bucket_list), b.bucket) ? data.terraform_remote_state.state[0].outputs.bucket_list[b.bucket].id : index(var.bucket_list, b) + 1)})      
+    for b in var.bucket_list:      
+        merge (b,{id = length(data.terraform_remote_state.state) > 0  ? coalesce(data.terraform_remote_state.state[0].outputs.bucket_list[b.bucket].id, index(var.bucket_list, b) + 1): index(var.bucket_list, b) + 1})      
   ]
 }
 module "backend_config" {
   source = "Invicton-Labs/backend-config/null"
 }
 
+
 output "backend" {
-value = module.backend_config.backend
+value = module.backend_config
 }
 
+
 data "terraform_remote_state" "state" {
-  count = module.backend_config.backend != null ? 1 : 0
+  count = module.backend_config.backend !=null ? 1 : 0
   backend   = module.backend_config.backend.type
   config    = module.backend_config.backend.config
 }
+
 
 
 module "s3_bucket" {
