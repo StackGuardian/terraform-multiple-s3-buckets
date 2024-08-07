@@ -10,6 +10,10 @@ module "backend_config" {
   source = "Invicton-Labs/backend-config/null"
 }
 
+output "backend" {
+value = module.backend_config.backend
+}
+
 data "terraform_remote_state" "state" {
   count = module.backend_config.backend != null ? 1 : 0
   backend   = module.backend_config.backend.type
