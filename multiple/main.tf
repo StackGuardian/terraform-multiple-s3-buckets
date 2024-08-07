@@ -1,8 +1,8 @@
 locals {
   bucket-list-with-id = [
     for b in var.bucket-list:
-     merge(b, {id = index(var.bucket-list, b)+1})
-     #merge(b, {id = (data.terraform_remote_state.state[0].outputs.bucket-list[index(data.terraform_remote_state.state[0].outputs.bucket-list.bucket, b.bucket.value)] != null? data.terraform_remote_state.state[0].outputs.bucket-list.id : index(var.bucket-list, b)+1)})
+     #merge(b, {id = index(var.bucket-list, b)+1})
+     merge(b, {id = (data.terraform_remote_state.state[0].outputs.bucket-list[index(data.terraform_remote_state.state[0].outputs.bucket-list.bucket, b.bucket.value)] != null? data.terraform_remote_state.state[0].outputs.bucket-list.id : index(var.bucket-list, b)+1)})
  
   ]
 }
