@@ -2,9 +2,8 @@ locals {
   bucket_list_with_id = [
     for b in var.bucket_list: 
       { 
-        bucket = b.bucket,
-        block_public_policy = b.block_public_policy,
-        id = (length(data.terraform_remote_state.state) > 0 && contains(keys(data.terraform_remote_state.state[0].outputs.bucket_list), b.bucket) ? data.terraform_remote_state.state[0].outputs.bucket_list[b.bucket].id : index(var.bucket_list, b) + 1)
+        
+        merge (b,{id = (length(data.terraform_remote_state.state) > 0 && contains(keys(data.terraform_remote_state.state[0].outputs.bucket_list), b.bucket) ? data.terraform_remote_state.state[0].outputs.bucket_list[b.bucket].id : index(var.bucket_list, b) + 1)})
       }
   ]
 }
