@@ -10,7 +10,7 @@ module "backend_config" {
 }
 
 data "terraform_remote_state" "state" {
-  count = backend_config.backend != null ? 1 : 0
+  count = module.backend_config.backend != null ? 1 : 0
   backend   = module.backend_config.backend.type
   config    = module.backend_config.backend.config
 }
