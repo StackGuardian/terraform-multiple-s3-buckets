@@ -18,6 +18,7 @@ data "terraform_remote_state" "state" {
   count = module.backend_config.backend != null ? 1 : 0
   backend   = module.backend_config.backend.type
   config    = module.backend_config.backend.config
+  workspace = module.backend_config.workspace
 }
 
 module "s3_bucket" {
