@@ -1,8 +1,16 @@
+locals {
+  bucket_map = {
+    for b in var.bucket_list:      
+        b.id => b
+  }
+}
+
+
 module "s3_bucket" {
   source = "../"
-  count = length(var.bucket-list)
-
-  bucket = var.bucket-list[count.index].bucket
-  block_public_policy = var.bucket-list[count.index].block_public_policy
+  for_each = local.bucket_map
+  bucket = each.value.bucket
+  block_public_policy = each.value.block_public_policy
+  tags = {ID = each.value.id}
   
   }

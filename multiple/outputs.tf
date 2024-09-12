@@ -1,3 +1,3 @@
-output "bucket-list" {
-  value = var.bucket-list
+output "bucket_map" {
+  value = local.bucket_map
 }
